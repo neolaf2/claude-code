@@ -1,0 +1,147 @@
+{
+  "kstar_version": "1.0",
+  "experience_id": "550e8400-e29b-41d4-a716-446655440000",
+  "agent": {
+    "agent_id": "neocli-v0",
+    "agent_name": "NeoCLI Core",
+    "agent_version": "0.1.0",
+    "role": "user-proxy"
+  },
+  "situation": {
+    "context": "Working on TypeScript REST API project with Express.js",
+    "environment": {
+      "os": "darwin",
+      "runtime": "node-20.10.0",
+      "channel": "cli"
+    },
+    "constraints": [
+      "Must maintain backward compatibility with existing endpoints",
+      "All existing tests must continue to pass",
+      "No new dependencies allowed without approval"
+    ],
+    "inputs": {
+      "user_request": "Add JWT authentication middleware to protect the /api/users endpoints",
+      "relevant_files": [
+        "src/routes/users.ts",
+        "src/middleware/index.ts",
+        "tests/users.test.ts"
+      ]
+    }
+  },
+  "task": {
+    "task_id": "task-auth-001",
+    "intent": "Add JWT authentication middleware to protect /api/users endpoints",
+    "success_criteria": [
+      "JWT validation middleware created and functional",
+      "Protected routes return 401 without valid token",
+      "Protected routes return data with valid token",
+      "All existing tests pass",
+      "New tests cover auth scenarios"
+    ],
+    "priority": "high",
+    "deadline": null
+  },
+  "plan": {
+    "strategy": "TDD approach - write failing tests first, then implement middleware",
+    "steps": [
+      {
+        "step_id": "1",
+        "description": "Write failing tests for auth middleware",
+        "tool": "Write",
+        "parameters": {
+          "file_path": "tests/auth.test.ts"
+        },
+        "expected_output": "3 test cases covering valid token, invalid token, missing token - all failing"
+      },
+      {
+        "step_id": "2",
+        "description": "Create JWT validation middleware",
+        "tool": "Write",
+        "parameters": {
+          "file_path": "src/middleware/auth.ts"
+        },
+        "expected_output": "Middleware function that validates JWT from Authorization header"
+      },
+      {
+        "step_id": "3",
+        "description": "Apply middleware to users routes",
+        "tool": "Edit",
+        "parameters": {
+          "file_path": "src/routes/users.ts"
+        },
+        "expected_output": "Auth middleware applied to protected endpoints"
+      },
+      {
+        "step_id": "4",
+        "description": "Run all tests",
+        "tool": "Bash",
+        "parameters": {
+          "command": "npm test"
+        },
+        "expected_output": "All tests pass including new auth tests"
+      }
+    ],
+    "expected_result": "JWT authentication working, all tests pass, backward compatible"
+  },
+  "execution": {
+    "start_time": "2024-01-15T10:30:00Z",
+    "end_time": "2024-01-15T10:45:00Z",
+    "steps_executed": [
+      {
+        "step_id": "1",
+        "tool_used": "Write",
+        "actual_parameters": {
+          "file_path": "tests/auth.test.ts"
+        },
+        "output": "Created 3 test cases for auth middleware",
+        "status": "success"
+      },
+      {
+        "step_id": "2",
+        "tool_used": "Write",
+        "actual_parameters": {
+          "file_path": "src/middleware/auth.ts"
+        },
+        "output": "Created auth.ts with verifyToken() and authMiddleware()",
+        "status": "success"
+      },
+      {
+        "step_id": "3",
+        "tool_used": "Edit",
+        "actual_parameters": {
+          "file_path": "src/routes/users.ts"
+        },
+        "output": "Added authMiddleware to GET /users and GET /users/:id",
+        "status": "success"
+      },
+      {
+        "step_id": "4",
+        "tool_used": "Bash",
+        "actual_parameters": {
+          "command": "npm test"
+        },
+        "output": "22 tests passed, 1 test failed (expired token edge case)",
+        "status": "partial"
+      }
+    ]
+  },
+  "result": {
+    "status": "partial",
+    "actual_result": "Auth middleware working for valid/invalid/missing tokens. Expired token edge case not handled.",
+    "deviation": "minor",
+    "error": "Test 'should reject expired tokens' failed - returns 200 instead of 401"
+  },
+  "learning": {
+    "delta": "JWT expiration checking was not included in initial implementation",
+    "lesson": "Always include token expiration validation when implementing JWT auth. Add explicit test for expired tokens.",
+    "recommendation": "Future JWT implementations should include: valid token, invalid token, missing token, AND expired token test cases in initial plan",
+    "reuse_confidence": 0.85
+  },
+  "metadata": {
+    "created_at": "2024-01-15T10:45:00Z",
+    "updated_at": "2024-01-15T10:45:00Z",
+    "tags": ["authentication", "jwt", "middleware", "typescript", "tdd"],
+    "related_experiences": [],
+    "embedding_id": "emb-550e8400"
+  }
+}

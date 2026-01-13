@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "kstar-memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--supabase-url",
+        "${NEOCLI_SUPABASE_URL}",
+        "--supabase-key",
+        "${NEOCLI_SUPABASE_KEY}"
+      ],
+      "env": {
+        "NEOCLI_SUPABASE_URL": "${NEOCLI_SUPABASE_URL:-http://localhost:54321}",
+        "NEOCLI_SUPABASE_KEY": "${NEOCLI_SUPABASE_KEY}"
+      }
+    }
+  }
+}
